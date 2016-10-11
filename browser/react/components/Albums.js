@@ -1,8 +1,23 @@
 import React from 'react';
 
+const convertAlbum = album => {
+  album.imageUrl = `/api/albums/${album.id}/image`;
+  album.songs = album.songs.map(convertSong);
+  return album;
+};
 
+const convertAlbums = albums => {
+  albums.imageUrl = `/api/albums/${album.id}/image`;
+
+}
 
 class Albums extends React.Component {
+  componentDidMount(){
+    fetch('/api/albums/')
+      .then(res => res.json())
+      .then(console.log(albums));
+    }
+
   render(){
     return (
       <div>
