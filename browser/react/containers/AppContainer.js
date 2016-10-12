@@ -131,6 +131,7 @@ export default class AppContainer extends Component {
           toggle={this.toggle}
           scrub={evt => this.seek(evt.nativeEvent.offsetX / evt.target.clientWidth)}
         />
+        <AlbumsContainer />
       </div>
     );
   }

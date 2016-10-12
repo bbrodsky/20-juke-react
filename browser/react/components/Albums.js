@@ -1,4 +1,11 @@
 import React from 'react';
+import store from '../myRedux';
+
+
+const convertSong = song => {
+  song.audioUrl = `/api/songs/${song.id}/audio`;
+  return song;
+};
 
 const convertAlbum = album => {
   album.imageUrl = `/api/albums/${album.id}/image`;
@@ -7,15 +14,20 @@ const convertAlbum = album => {
 };
 
 const convertAlbums = albums => {
-  albums.imageUrl = `/api/albums/${album.id}/image`;
+  albums.map(e => {
+    e = convertAlbum(e);
+    e.imageUrl = `/api/albums/${e.id}/image`;
+    return e;
+  })
 
+  return albums;
 }
 
 class Albums extends React.Component {
   componentDidMount(){
     fetch('/api/albums/')
       .then(res => res.json())
-      .then(console.log(albums));
+      .then(albums => console.log(store.dispatch({type: "RECEIVE_ALBUMS_FROM_SERVER", action: convertAlbums(albums)})));
     }
 
   render(){
