@@ -1,10 +1,12 @@
 import { connect } from 'react-redux';
 import Albums from '../components/Albums'
+const RECEIVE_ALBUMS_FROM_SERVER = 'RECEIVE ALBUMS FROM SERVER';
+import { convertLoadedAlbums } from '../actions';
 
 
 const mapStateToProps =  function(state, ownProps) {
     return {
-        album: state.albums
+        albums: state.albums
     };
 };
 
@@ -12,7 +14,7 @@ const mapStateToProps =  function(state, ownProps) {
 const mapDispatchToProps = function(dispatch, ownProps) {
     return {
         loadAlbums (albums) {
-          dispatch({ type: RECEIVE_ALBUMS_FROM_SERVER, albums: albums }); // hm, could we shorten this, too?
+          dispatch(convertLoadedAlbums(albums));
         }
     }
 }
@@ -23,3 +25,20 @@ const AlbumsContainer = connect(
 )(Albums);
 
 export default AlbumsContainer;
+//
+//
+// function connect(mS2P, mD2P) {
+//
+//   let store = this.context.store;
+//   return function (InnerComponent) {
+//     return class extends React.Component {
+//
+//       render () {
+//         let state = mS2P(store.getState())
+//         let behavior = mS2P(store.dispatch)
+//         <InnerComponent
+//          />
+//       }
+//     }
+//   }
+// }

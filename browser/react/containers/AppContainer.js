@@ -114,12 +114,13 @@ export default class AppContainer extends Component {
           <Sidebar />
         </div>
         <div className="col-xs-10">
-          <Album
+        <AlbumsContainer />
+          {/* <Album
             album={this.state.album}
             currentSong={this.state.currentSong}
             isPlaying={this.state.isPlaying}
             toggle={this.toggleOne}
-          />
+          /> */}
         </div>
         <Player
           currentSong={this.state.currentSong}
@@ -131,7 +132,7 @@ export default class AppContainer extends Component {
           toggle={this.toggle}
           scrub={evt => this.seek(evt.nativeEvent.offsetX / evt.target.clientWidth)}
         />
-        <AlbumsContainer />
+
       </div>
     );
   }
