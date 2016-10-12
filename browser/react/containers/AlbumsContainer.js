@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import Albums from '../components/Albums'
 const RECEIVE_ALBUMS_FROM_SERVER = 'RECEIVE ALBUMS FROM SERVER';
-import { convertLoadedAlbums } from '../actions';
+import { fetchAlbumsFromServer } from '../actions';
 
 
 const mapStateToProps =  function(state, ownProps) {
@@ -11,13 +11,9 @@ const mapStateToProps =  function(state, ownProps) {
 };
 
 // receives the dispatch() method and returns callback props that you want to inject into the presentational component.
-const mapDispatchToProps = function(dispatch, ownProps) {
-    return {
-        loadAlbums (albums) {
-          dispatch(convertLoadedAlbums(albums));
-        }
-    }
-}
+const mapDispatchToProps = (dispatch) => ({
+    fetchAlbums: () => dispatch(fetchAlbumsFromServer())
+})
 
 const AlbumsContainer = connect(
   mapStateToProps,

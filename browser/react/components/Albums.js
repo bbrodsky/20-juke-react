@@ -4,11 +4,7 @@ import React from 'react';
 
 class Albums extends React.Component {
   componentDidMount(){
-    fetch('/api/albums/')
-      .then(res => res.json())
-      .then(albums => {
-        this.props.loadAlbums(albums)
-      });
+      this.props.fetchAlbums();
     }
 
   render(){
