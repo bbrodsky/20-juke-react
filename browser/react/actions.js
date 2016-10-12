@@ -1,8 +1,7 @@
 const RECEIVE_ALBUMS_FROM_SERVER = 'RECEIVE ALBUMS FROM SERVER';
 const MAKE_SONG_PLAY = 'MAKE SONG PLAY';
 const MAKE_SONG_STOP = 'MAKE SONG STOP';
-const LOAD_SONG = 'LOAD SONG';
-const INITIALIZE_SONG = 'INITIALIZE SONG';
+const SET_CURRENT_SONG = 'SET CURRENT SONG';
 // const TOGGLE
 
 
@@ -40,11 +39,11 @@ const stopSong = function(){
     }
 }
 
-const loadSong = function(songID, albumSongs){
+const setCurrentSong = function(currentSong, currentSongList){
     return {
-        type: LOAD_SONG,
-        songID,
-        albumSongs
+        type: SET_CURRENT_SONG,
+        currentSong,
+        currentSongList
     }
 }
 
@@ -57,3 +56,43 @@ export const fetchAlbumsFromServer = () => {
       .then(albums => dispatch(convertLoadedAlbums(albums)))
   }
 }
+
+export const play = () => {
+  return dispatch => {
+    AUDIO.play();
+    dispatch(playSong());
+  }
+}
+
+export const pause = () => {
+  return dispatch => {
+    AUDIO.pause();
+    dispatch(stopSong());
+  }
+}
+
+const load = (currentSong, currentSongList) => dispatch => {
+  AUDIO.src = currentSong.audioUrl;
+  AUDIO.load();
+  dispatch(setCurrentSong(currentSong, currentSongList));
+}
+
+export const startSong = (song, list) => dispatch => {
+  dispatch(pause());
+  dispatch(load(song, list));
+  dispatch(play());
+};
+
+export const toggle = () => (dispatch, getState) => {
+  const { isPlaying } = getState();
+  if (isPlaying) dispatch(pause());
+  else dispatch(play());
+};
+
+export const toggleOne = (selectedSong, selectedSongList) =>
+  (dispatch, getState) => {
+    const { currentSong } = getState();
+    if (selectedSong.id !== currentSong.id)
+      dispatch(startSong(selectedSong, selectedSongList));
+    else dispatch(toggle());
+};
